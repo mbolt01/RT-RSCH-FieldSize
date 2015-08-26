@@ -132,7 +132,7 @@ macro "Find Points" {
 
 	//sets intX and intY, used as a starting point to find central minima, hence central point
 	findIntersection(xNorth, yNorth, xSouth, ySouth, xEast, yEast, xWest, yWest); 	
-	findCentre(intX, intY);
+	findCentre(xNorth, yNorth, xSouth, ySouth, xEast, yEast, xWest, yWest);
 
 // *************** STEP 3 ***************
 // 3. Profile Analysis     
@@ -443,9 +443,14 @@ function calcDistance(a, b, c, d) {
 
 
 //********************** Find central point ********************************************************
-function findCentre(intX, intY) {
+function findCentre(xi1, yi1, xi2, yi2, xi3, yi3, xi4, yi4) {
 
    // find the central point, using the intersection of the 4 points: N,S,E,W (light field)
+
+   //take average of coords to give approx location of central bb to start search
+
+	intX = (xi1+xi2+xi3+xi4)/4;
+	intY = (yi1+yi2+yi3+yi4)/4;
 
 	selectImage(myImageID);  		// make sure its the correct image
             isFound = false;
