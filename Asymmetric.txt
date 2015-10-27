@@ -83,7 +83,7 @@ macro "AssymAnalysis" {
 		// extract DICOM Image data:
 		intEnergy = parseInt(getInfo("0018,0060")) / 1000;
 		strDateImage = getInfo("0008,0023");
-		intSSD = parseInt(getInfo("3002,0022")) / 10;
+		intSSD = parseInt(getInfo("3002,0026")) / 10;
 
 		run("Calibrate...", "function=None unit=[Gray Value] text1=[ ] text2= global show");
 
@@ -118,10 +118,28 @@ macro "AssymAnalysis" {
 
 	combineImages();
 
-	xV1 = 330;		// vertical profiles where x = 330 and x = 690 on a 1024 image
-	xV2 = 690;
-	yH1 = 200;		// horizontal profiles where y =200 and y = 560 on a 1024 image
-	yH2 = 560;
+
+// *** This part to position the mean ROIs has been adapted as LA6 has a 40x40cm imager (1190px) and so the positions of the 10x10 feilds varies.
+// *** The positoins has of the ROIs for all imageers has been slightly adjusted to make them more central.
+
+//	xV1 = 330;		// vertical profiles where x = 330 and x = 690 on a 1024 image
+//	xV2 = 690;
+//	yH1 = 200;		// horizontal profiles where y =200 and y = 560 on a 1024 image
+//	yH2 = 560;
+
+
+	if (pWidth ==1190) {
+		xV1 = 420;
+		xV2 = 780;
+		yH1 = 420;
+		yH2 = 780;
+	} else {
+		xV1 = 390;
+		xV2 = 650;
+		yH1 = 260;
+		yH2 = 520;
+	}
+
 
 // find the intersections should be 70-130% of mean
 // calc average of 4 ROIs - one per quadrant	
@@ -136,8 +154,8 @@ macro "AssymAnalysis" {
 	setBatchMode("exit & display");	// displays all open images	// need to show image for user to amke decision
 
 	Dialog.create("Invert?");
-		if (myLinac == "Red-A" || myLinac == "Red-B") {
-		Dialog.addCheckbox("If irradiated area is white then tick box",true);	// set defaults baded on which linacis selected to minimise user input
+		if (myLinac == "Red-A" || myLinac == "Red-B" || myLinac == "LA6") {
+		Dialog.addCheckbox("If irradiated area is white then tick box",true);	// set defaults based on which linacis selected to minimise user input
 		} else {
 		Dialog.addCheckbox("If irradiated area is white then tick box",false);
 		}
