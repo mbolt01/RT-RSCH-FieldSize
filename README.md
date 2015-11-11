@@ -4,6 +4,17 @@
 Field Sizes are analysed using both the EPID and Gafchromic Film.
 Analysis is performed using [ImageJ](http://imagej.nih.gov/ij/) software.
 
+##Running Macros
+###Macro Launcher
+There is a macro launcher (simple batch file) which when run will open ImageJ and start the ImageJ Menu Macro contained within the same folder.
+
+###Macro Menu
+There is a menu (created as an ImageJ macro) which has been created to allow consistent running of the macros.
+The user runs this menu macro and this allows them to select the required test.
+This would need updating if the macro file names updated, or a new macro was added.
+Note: This replaces the previous menu created in MS Access with the hope of simpler upkeep.
+Macros for Linacs (Guildford and Redhill), Gulmay, Papillon and some additional test macros are avialable.
+
 ##Method
 ###EPID
 1. An in-house phantom is aligned with the CAX and imaged with a 10x10 photon field.
