@@ -8,7 +8,7 @@
 
 
 	// Set last updated date - ****further comments should be added at the end of the file
-update_date = "18 Nov 15 by MB"
+update_date = "19 Jan 15 by MB"
 
 //************************ All Macros should be listed here assigned to unique parameters***************************
 //************************ The full file path should be specified and slashes should be doubled '\\' ***************
@@ -139,5 +139,6 @@ runMacro(selected_macro, selected_linac);
 //
 // 09Nov15 Started working on a menu to launch current macros. MB
 // 10Nov15 Working version for all 10 current macros. MB
-// 18Nov 15 Papillon macro updated with new standard figures following FF replacement. MB
+// 18Nov15 Papillon macro updated with new standard figures following FF replacement. MB
+// 19Jan16 Papillon macro updated to display profile plots. MB
 // 
