@@ -8,12 +8,12 @@ Analysis is performed using [ImageJ](http://imagej.nih.gov/ij/) software.
 ###Macro Launcher
 There is a macro launcher (simple batch file) which when run will open ImageJ and start the ImageJ Menu Macro contained within the same folder.
 
-###Macro Menu
-There is a menu (created as an ImageJ macro) which has been created to allow consistent running of the macros.
+####Macro Menu
+There is a menu (created as an ImageJ macro) which has been created to allow consistent running of the macros and simple updating.
 The user runs this menu macro and this allows them to select the required test.
 This would need updating if the macro file names updated, or a new macro was added.
 Note: This replaces the previous menu created in MS Access with the hope of simpler upkeep.
-Macros for Linacs (Guildford and Redhill), Gulmay, Papillon and some additional test macros are avialable.
+Macros for Linacs (Guildford and Redhill), Gulmay, Papillon and some additional test macros are available.
 
 ##Method
 ###EPID
