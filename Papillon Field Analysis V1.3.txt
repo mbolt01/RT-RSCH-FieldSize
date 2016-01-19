@@ -26,6 +26,7 @@ macro "Papillon_Field_Analysis"{
 
 // + + + + + + + + + + This whole macro is enclosed in a 'do... while' loop to allow analysis to be restarted if box at end is ticked i.e. if RepeatAnalysis = true + + + + + + + + + + + + +
 
+// Last updated 18 Nov 15 after rplacement of flattening filter. New threshold ratios added as well as uniformity and field size std figs
 
 
 ///////	0	//////////	Setup ImageJ as required & get image info	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,21 +88,29 @@ macro "Papillon_Field_Analysis"{
 ///////	1	//////////	Tolerance Levels & Standard Figures	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
      //     Constants used
-	roiSize = 1.5;
+	roiSize = 2;
 	ProfileWidthmm = 2;					//	Sets the width of the measured profile in mm - aim is to average over a wider profile to avoid problems with any noise/dust/dead pixels in image
 	UniMeasDist = newArray("7","8","9","9");				//	Distance of unifomrity ROIs from centre in mm
 
-	ThresFactorChoices = newArray("1.31","1.26","1.26","1.26");		//	Edge threshold factors for each beam - measured by taking exposures at 200 & 100MU.
+	//ThresFactorChoices = newArray("1.31","1.26","1.26","1.26");	//	Edge threshold factors for each beam - measured by taking exposures at 200 & 100MU.
 								//	This is a multiplication factor for finding 50% pixel value for each energy
+	ThresFactorChoices = newArray("1.36","1.31","1.27","1.24");		// 	changed following FF replacement
+
 
      //     Uniformity Std Figs
 
 	// See relevant work instructions to understand what the four cardinal points refer to.		
 
-	UniformityNRatio = newArray("1.015","1.014","1.001","1.013");		//	Uniformity values for each applicator.
-	UniformitySRatio = newArray("1.007","1.008","1.021","1.011");		//	N etc should be specified within the protocol, and may depend on the applicator/unit orientation.
-	UniformityERatio = newArray("1.027","1.031","1.034","1.041");
-	UniformityWRatio = newArray("1.005","1.014","1.020","1.014");
+	//UniformityNRatio = newArray("1.015","1.014","1.001","1.013");		//	Uniformity values for each applicator.
+	//UniformitySRatio = newArray("1.007","1.008","1.021","1.011");		//	N etc should be specified within the protocol, and may depend on the applicator/unit orientation.
+	//UniformityERatio = newArray("1.027","1.031","1.034","1.041");
+	//UniformityWRatio = newArray("1.005","1.014","1.020","1.014");
+	
+	// new results following FF replacement Nov 2015
+	UniformityNRatio = newArray("1.016","1.012","1.011","1.011");		//	Uniformity values for each applicator.
+	UniformitySRatio = newArray("1.026","1.031","1.033","1.020");		//	N etc should be specified within the protocol, and may depend on the applicator/unit orientation.
+	UniformityERatio = newArray("1.047","1.044","1.029","1.054");
+	UniformityWRatio = newArray("1.010","1.020","1.007","1.006");
 
      //     Tolerance Levels		************ THESE NEED RE-DEFINING IF NECESSARY - MONITOR!!! ************
 	FieldSizeTol = 1;			// tolerance for field size is +/- 1mm
@@ -112,7 +121,9 @@ macro "Papillon_Field_Analysis"{
 
 	AppChoices = newArray("22 mm","25 mm","30 mm","Physics");		//	These can be given names as this array is only used for selection purposes
 									//	Physics applicator should be identical to 30mm applicator
-	FieldSizeChoices = newArray("22.6","25.3","30.4","30.5");		//	relate horiz & vert field size to app selected - these are the standard figures
+	//FieldSizeChoices = newArray("22.6","25.3","30.4","30.5");		//	relate horiz & vert field size to app selected - these are the standard figures
+	// Updated values following FF replacemenet Nov 2015
+	FieldSizeChoices = newArray("22.8","25.7","30.7","30.7");
 
 	ScannerChoices = newArray("V750 Pro","11000XL Pro");
 
@@ -472,8 +483,32 @@ macro "Papillon_Field_Analysis"{
 	}		//	end of IF statement for performing Uniformity analysis
 // $$$$$
 
+////////// Display profile plots ////////////////
+
+	// North South Profile Plot
+	selectImage(origImageID);
+	roiManager("select",0);
+	profileNS = getProfile();
+	Plot.create("North - South Plot", "Position", "Pixel Value", profileNS);
+	Plot.setFrameSize(350,250);
+	Plot.show();
+	setLocation(0,500);
+
+	// West East Profile Plot
+	selectImage(origImageID);
+	roiManager("select",1);
+	profileWE = getProfile();
+	Plot.create("West - East Plot", "Position", "Pixel Value", profileWE);
+	Plot.setFrameSize(350,250);
+	Plot.show();
+	setLocation(500,500);
+	selectWindow("North - South Plot");
+	selectWindow("West - East Plot");
+
 ///////	9	//////////	Option to Check Results & Restart Analysis	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	selectWindow("Log");
+	setLocation(0,100);
 	waitForUser("Analysis Complete", "Check Results Displayed In Log Window.   Press OK to Continue");	//	user can check results prior to adding comments
 
 	Dialog.create("Restart Analysis");
